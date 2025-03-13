@@ -1,3 +1,4 @@
+
 class HTMLNode:
     """
     This class represents an HTML node with a tag, content, children, and properties.
@@ -25,7 +26,14 @@ class HTMLNode:
         return final_output 
     
     def __repr__(self):
-        return f"HTMLNode({self.tag}, {self.value}, children: {self.children}, {self.props})"
+        return f"HTMLNode({self.tag}, {self.value}, children: {self.children}, {self.props})"\
+
+        
+        
+        
+        
+        
+        
     
     
             
