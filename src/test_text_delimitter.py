@@ -1,6 +1,6 @@
 import unittest
 from text_delimitter import (
-    split_nodes_delimiter,
+    split_nodes_delimiter,extract_markdown_images,extract_markdown_links
 )
 
 from textnode import TextNode, TextType
@@ -92,6 +92,29 @@ class TestInlineMarkdown(unittest.TestCase):
             split_nodes_delimiter([node], "`", TextType.CODE)
         self.assertEqual(str(context.exception),
                          "invalid markdown, formatted section not closed")
+    
+    def test_extract_markdown_images(self):
+        matches = extract_markdown_images(
+            "This is text with an ![image](https://i.imgur.com/zjjcJKZ.png)"
+        )
+        self.assertListEqual(
+            [("image", "https://i.imgur.com/zjjcJKZ.png")], matches)
+    
+    def test_extract_markdown_images(self):
+        matches = extract_markdown_images(
+            "This is text with an !(https://i.imgur.com/zjjcJKZ.png)"
+        )
+        # print(matches)
+        self.assertListEqual(
+            [], matches)
+    
+    def test_extract_markdown_links(self):
+        matches = extract_markdown_links(
+            "This is text with an [link](https://i.imgur.com/zjjcJKZ.png)"
+        )
+        # print(matches)
+        self.assertListEqual(
+            [("link", "https://i.imgur.com/zjjcJKZ.png")], matches)
 
 
 if __name__ == "__main__":
