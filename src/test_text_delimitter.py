@@ -5,7 +5,7 @@ from text_delimitter import (
     extract_markdown_links,
     split_nodes_images,
     split_nodes_links,
-    text_to_textnodes
+    text_to_textnodes,
 )
 from textnode import TextNode, TextType
 
@@ -161,7 +161,7 @@ class TestInlineMarkdown(unittest.TestCase):
             TextNode("link", TextType.LINK, "https://link.com"),
         ]
         self.assertListEqual(text_to_textnodes(text), expected_output)
-
+    
 
 if __name__ == "__main__":
     unittest.main()
