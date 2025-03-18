@@ -70,7 +70,7 @@ def split_nodes_images(old_nodes):
             continue
         original_text = node.text
         images = extract_markdown_images(original_text)
-        if not images and ("![" in original_text or "]" in original_text):
+        if not images and ("![" in original_text and "]" in original_text):
             raise ValueError("Invalid markdown syntax for image")
 
         for image_name, image_url in images:
