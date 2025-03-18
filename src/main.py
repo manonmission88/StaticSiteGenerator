@@ -1,12 +1,13 @@
+import sys
 from textnode import TextNode, TextType
 from markdown_blocks import markdown_to_html_node
 import os 
 import shutil
 
 def main():
-    text_node = TextNode("This is some anchor text", TextType.LINK, "https: //www.boot.dev")
+    basepath = sys.argv[1] if len(sys.argv) > 1 else '/'  # Get basepath from CLI or default to '/'
     static_to_public(src, dest)
-    generate_pages_recursive(from_path,template_path,to_path)
+    generate_pages_recursive(from_path, template_path, to_path, basepath)
 
 
 def static_to_public(src,dest):
@@ -42,7 +43,7 @@ def extract_title(markdown):
     return ''
         
 
-def generate_page(from_path,template_path,dest_path):
+def generate_page(from_path,template_path,dest_path, basepath):
     print(f"Generating page from {from_path} to {dest_path}")
     with open(from_path, 'r', encoding="utf-8") as file:
         markdown_content = file.read()
@@ -52,20 +53,22 @@ def generate_page(from_path,template_path,dest_path):
     title = extract_title(markdown_content)
     template_content = template_content.replace('{{ Title }}', title)
     template_content = template_content.replace('{{ Content }}', html_content)
+    template_content = template_content.replace('href="/', f'href="{basepath}')
+    template_content = template_content.replace('src="/', f'src="{basepath}')
     os.makedirs(os.path.dirname(dest_path), exist_ok=True)
     with open(dest_path, "w", encoding="utf-8") as file:
         file.write(template_content)
         
         
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, basepath):
     for filename in os.listdir(dir_path_content):
         file_path = os.path.join(dir_path_content, filename)
-        if os.path.isdir(file_path):  # If it's a directory, recurse into it
+        if os.path.isdir(file_path):  #directory -- recurse 
             sub_dest_dir = os.path.join(dest_dir_path, filename)
-            generate_pages_recursive(file_path, template_path, sub_dest_dir)
+            generate_pages_recursive(file_path, template_path, sub_dest_dir, basepath)
         elif filename.endswith(".md"):  # Process only markdown files
             output_path = os.path.join(dest_dir_path, filename.replace(".md", ".html"))
-            generate_page(file_path, template_path, output_path)
+            generate_page(file_path, template_path, output_path, basepath)
         # Ignore non-markdown files
         
 
