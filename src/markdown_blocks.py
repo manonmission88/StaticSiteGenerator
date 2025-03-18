@@ -4,6 +4,8 @@ as input and returns a list of "block" strings.
 
 """
 from enum import Enum 
+from htmlnode import HTMLNode
+
 class BlockType(Enum):
     PARAGRAPH = 'paragraph'
     HEADING = 'heading'
@@ -39,6 +41,16 @@ def block_to_block_type(block):
     return BlockType.PARAGRAPH
     
     
+def markdown_to_html_node(markdown):
+    """
+    Convert whole markdown document into the html node object
+    
+    """
+    markdown_blocks = markdown_to_blocks(markdown)
+    for block in markdown_blocks:
+        print(block)
+        
+        
     
     
     
