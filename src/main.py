@@ -5,7 +5,7 @@ import os
 import shutil
 
 def main():
-    basepath = sys.argv[1] if len(sys.argv) > 1 else '/'  # Get basepath from CLI or default to '/'
+    basepath = sys.argv[1] if len(sys.argv) > 1 else '/' 
     static_to_public(src, dest)
     generate_pages_recursive(from_path, template_path, to_path, basepath)
 
@@ -69,13 +69,12 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, bas
         elif filename.endswith(".md"):  # Process only markdown files
             output_path = os.path.join(dest_dir_path, filename.replace(".md", ".html"))
             generate_page(file_path, template_path, output_path, basepath)
-        # Ignore non-markdown files
         
 
 if __name__ == "__main__":
     src = './static'
-    dest = './public'
+    dest = './docs'
     from_path = './content/'
     template_path = './template.html'
-    to_path = './public'
+    to_path = './docs'
     main()
